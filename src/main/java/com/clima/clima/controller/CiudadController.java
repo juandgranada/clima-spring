@@ -1,11 +1,9 @@
-
 package com.clima.clima.controller;
 
 import com.clima.clima.entity.Ciudad;
 import com.clima.clima.service.CiudadService;
 
 import jakarta.validation.Valid;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,53 +21,39 @@ public class CiudadController {
         this.ciudadService = ciudadService;
     }
 
-    // Listar todas las ciudades
+    // GET /api/ciudades
     @GetMapping
     public ResponseEntity<List<Ciudad>> listarCiudades() {
         return ResponseEntity.ok(ciudadService.listarCiudades());
     }
 
-    // Crear una ciudad
-    @PostMapping
-    public ResponseEntity<Ciudad> guardarCiudad(
-            @Valid @RequestBody Ciudad ciudad) {
-
-        Ciudad ciudadGuardada = ciudadService.guardarCiudad(ciudad);
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ciudadGuardada);
-    }
-
-    // Buscar una ciudad por ID
+    // GET /api/ciudades/{id}
     @GetMapping("/{id}")
     public ResponseEntity<Ciudad> buscarPorId(@PathVariable Long id) {
-
         return ciudadService.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Actualizar una ciudad
-    @PutMapping("/{id}")
-    public ResponseEntity<Ciudad> actualizarCiudad(
-            @PathVariable Long id,
-            @Valid @RequestBody Ciudad datos) {
+    // POST /api/ciudades
+    @PostMapping
+    public ResponseEntity<Ciudad> guardarCiudad(@Valid @RequestBody Ciudad ciudad) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(ciudadService.guardarCiudad(ciudad));
+    }
 
-        return ciudadService.actualizarCiudad(id, datos)
+    // PUT /api/ciudades/{id}
+    @PutMapping("/{id}")
+    public ResponseEntity<Ciudad> actualizarCiudad(@PathVariable Long id, @Valid @RequestBody Ciudad ciudad) {
+        return ciudadService.actualizarCiudad(id, ciudad)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Eliminar una ciudad
+    // DELETE /api/ciudades/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarCiudad(@PathVariable Long id) {
-
-        boolean eliminada = ciudadService.eliminarCiudad(id);
-
-        if (!eliminada) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.noContent().build();
+        return ciudadService.eliminarCiudad(id)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 }

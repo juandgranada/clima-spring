@@ -15,21 +15,21 @@
             "header": [],
             "description": "",
             "url": {
-              "raw": "http://localhost:8080/api/ciudad",
+              "raw": "http://localhost:8080/api/ciudades",
               "protocol": "http",
               "host": [
                 "localhost:8080"
               ],
               "path": [
                 "api",
-                "ciudad"
+                "ciudades"
               ],
               "query": [],
               "variable": []
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre\": \"Pereira\",\n  \"departamento\": \"Risaralda\",\n  \"poblacion\": 500000\n}",
+              "raw": "{\n  \"nombre\": \"Medellin\",\n  \"departamento\": \"Antioquia\",\n  \"poblacion\": -700000\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -45,14 +45,14 @@
             "header": [],
             "description": "",
             "url": {
-              "raw": "http://localhost:8080/api/ciudad",
+              "raw": "http://localhost:8080/api/ciudades",
               "protocol": "http",
               "host": [
                 "localhost:8080"
               ],
               "path": [
                 "api",
-                "ciudad"
+                "ciudades"
               ],
               "query": [],
               "variable": []
@@ -66,14 +66,14 @@
             "header": [],
             "description": "",
             "url": {
-              "raw": "http://localhost:8080/api/ciudad/2",
+              "raw": "http://localhost:8080/api/ciudades/2",
               "protocol": "http",
               "host": [
                 "localhost:8080"
               ],
               "path": [
                 "api",
-                "ciudad",
+                "ciudades",
                 "2"
               ],
               "query": [],
@@ -88,22 +88,22 @@
             "header": [],
             "description": "",
             "url": {
-              "raw": "http://localhost:8080/api/ciudad/2",
+              "raw": "http://localhost:8080/api/ciudades/3",
               "protocol": "http",
               "host": [
                 "localhost:8080"
               ],
               "path": [
                 "api",
-                "ciudad",
-                "2"
+                "ciudades",
+                "3"
               ],
               "query": [],
               "variable": []
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre\": \"Pereira\",\n  \"departamento\": \"Risaralda\",\n  \"poblacion\": 600000\n}",
+              "raw": "{\n  \"nombre\": \"Pereira\",\n  \"departamento\": \"Risaralda\",\n  \"poblacion\": 200000\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -119,15 +119,15 @@
             "header": [],
             "description": "",
             "url": {
-              "raw": "http://localhost:8080/api/ciudad/2",
+              "raw": "http://localhost:8080/api/ciudades/4",
               "protocol": "http",
               "host": [
                 "localhost:8080"
               ],
               "path": [
                 "api",
-                "ciudad",
-                "2"
+                "ciudades",
+                "4"
               ],
               "query": [],
               "variable": []
@@ -146,21 +146,21 @@
             "header": [],
             "description": "",
             "url": {
-              "raw": "http://localhost:8080/api/estacion",
+              "raw": "http://localhost:8080/api/estaciones",
               "protocol": "http",
               "host": [
                 "localhost:8080"
               ],
               "path": [
                 "api",
-                "estacion"
+                "estaciones"
               ],
               "query": [],
               "variable": []
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre\": \"Estación Milán\",\n  \"codigo\": \"EST-MZL-002\",\n  \"ubicacion\": \"Alto del Perro, Manizales\",\n  \"estado\": \"ACTIVA\",\n  \"ciudad_id\": {\n    \"id\": 1\n  }\n}",
+              "raw": "{\n  \"nombre\": \"Estación terminal\",\n  \"codigo\": \"EST-MZL-003\",\n  \"ubicacion\": \"Terminal, Manizales\",\n  \"estado\": \"ACTIVA\",\n  \"ciudad\": {\n    \"id\": 1\n  }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -176,14 +176,14 @@
             "header": [],
             "description": "",
             "url": {
-              "raw": "http://localhost:8080/api/estacion",
+              "raw": "http://localhost:8080/api/estaciones",
               "protocol": "http",
               "host": [
                 "localhost:8080"
               ],
               "path": [
                 "api",
-                "estacion"
+                "estaciones"
               ],
               "query": [],
               "variable": []
@@ -197,15 +197,15 @@
             "header": [],
             "description": "",
             "url": {
-              "raw": "http://localhost:8080/api/estacion/2",
+              "raw": "http://localhost:8080/api/estaciones/4",
               "protocol": "http",
               "host": [
                 "localhost:8080"
               ],
               "path": [
                 "api",
-                "estacion",
-                "2"
+                "estaciones",
+                "4"
               ],
               "query": [],
               "variable": []
@@ -219,22 +219,22 @@
             "header": [],
             "description": "",
             "url": {
-              "raw": "http://localhost:8080/api/estacion/3",
+              "raw": "http://localhost:8080/api/estaciones/6",
               "protocol": "http",
               "host": [
                 "localhost:8080"
               ],
               "path": [
                 "api",
-                "estacion",
-                "3"
+                "estaciones",
+                "6"
               ],
               "query": [],
               "variable": []
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre\": \"Estación Aeropuerto Del Café\",\n  \"codigo\": \"EST-PER-001\",\n  \"ubicacion\": \"Aeropurto, Pereira\",\n  \"estado\": \"ACTIVA\",\n  \"ciudad_id\": {\n    \"id\": 3\n  }\n}",
+              "raw": "{\n  \"nombre\": \"Estación Aeropuerto Del Café\",\n  \"codigo\": \"EST-PER-001\",\n  \"ubicacion\": \"Aeropuerto, Pereira\",\n  \"estado\": \"ACTIVA\",\n  \"ciudad\": {\n    \"id\": 3\n  }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -250,15 +250,15 @@
             "header": [],
             "description": "",
             "url": {
-              "raw": "http://localhost:8080/api/estacion/3",
+              "raw": "http://localhost:8080/api/estaciones/6",
               "protocol": "http",
               "host": [
                 "localhost:8080"
               ],
               "path": [
                 "api",
-                "estacion",
-                "3"
+                "estaciones",
+                "6"
               ],
               "query": [],
               "variable": []
@@ -277,21 +277,21 @@
             "header": [],
             "description": "",
             "url": {
-              "raw": "http://localhost:8080/api/registro-clima",
+              "raw": "http://localhost:8080/api/mediciones",
               "protocol": "http",
               "host": [
                 "localhost:8080"
               ],
               "path": [
                 "api",
-                "registro-clima"
+                "mediciones"
               ],
               "query": [],
               "variable": []
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"temperatura\": 15.5,\n  \"humedad\": 65.0,\n  \"presion\": 1000.25,\n  \"fecha\": \"2026-11-06T10:30:00\",\n  \"estacion_id\": {\n    \"id\": 2\n  }\n}",
+              "raw": "{\n  \"temperatura\": 17.43,\n  \"humedad\": 65.0,\n  \"presion\": 700.25,\n  \"estacion\": {\n    \"id\": 4\n  }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -307,14 +307,14 @@
             "header": [],
             "description": "",
             "url": {
-              "raw": "http://localhost:8080/api/registro-clima",
+              "raw": "http://localhost:8080/api/mediciones",
               "protocol": "http",
               "host": [
                 "localhost:8080"
               ],
               "path": [
                 "api",
-                "registro-clima"
+                "mediciones"
               ],
               "query": [],
               "variable": []
@@ -328,14 +328,14 @@
             "header": [],
             "description": "",
             "url": {
-              "raw": "http://localhost:8080/api/registro-clima/1",
+              "raw": "http://localhost:8080/api/mediciones/1",
               "protocol": "http",
               "host": [
                 "localhost:8080"
               ],
               "path": [
                 "api",
-                "registro-clima",
+                "mediciones",
                 "1"
               ],
               "query": [],
@@ -350,14 +350,14 @@
             "header": [],
             "description": "",
             "url": {
-              "raw": "http://localhost:8080/api/registro-clima/1",
+              "raw": "http://localhost:8080/api/mediciones/1",
               "protocol": "http",
               "host": [
                 "localhost:8080"
               ],
               "path": [
                 "api",
-                "registro-clima",
+                "mediciones",
                 "1"
               ],
               "query": [],
@@ -365,7 +365,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"temperatura\": 18.5,\n  \"humedad\": 72.0,\n  \"presion\": 1013.25,\n  \"fecha\": \"2026-11-06T10:30:00\",\n  \"estacion_id\": {\n    \"id\": 2\n  }\n}",
+              "raw": "{\n  \"temperatura\": 18.5,\n  \"humedad\": 72.0,\n  \"presion\": 1013.25,\n  \"estacion\": {\n    \"id\": 2\n  }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -381,15 +381,15 @@
             "header": [],
             "description": "",
             "url": {
-              "raw": "http://localhost:8080/api/registro-clima/2",
+              "raw": "http://localhost:8080/api/mediciones/5",
               "protocol": "http",
               "host": [
                 "localhost:8080"
               ],
               "path": [
                 "api",
-                "registro-clima",
-                "2"
+                "mediciones",
+                "5"
               ],
               "query": [],
               "variable": []
