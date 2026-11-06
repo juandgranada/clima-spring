@@ -3,26 +3,34 @@ package com.clima.clima.entity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "registro_clima")
 public class RegistroClima {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull ( message = "La temperatura es obligatoria")
+    @Column(name = "temperatura", nullable = false)
     private BigDecimal temperatura;
 
+    @NotNull(message = "La humedad es obligatoria")
+    @Column(name = "humedad", nullable = false)
     private BigDecimal humedad;
 
+    @NotNull(message = "La presión es obligatoria")
+    @Column(name = "presion", nullable = false)
     private BigDecimal presion;
 
+    @Column(name = "fecha", nullable = false, insertable = false, updatable = false)
     private LocalDateTime fecha;
 
     @ManyToOne
     @JoinColumn(name = "estacion_id")
-    private Estacion estacion_id;
+    private Estacion estacion;
 
     public RegistroClima() {
     }
@@ -69,12 +77,12 @@ public class RegistroClima {
         this.fecha = fecha;
     }
 
-    public Estacion getEstacion_id() {
-        return estacion_id;
+    public Estacion getEstacion() {
+        return estacion;
     }
 
-    public void setEstacion_id(Estacion estacion_id) {
-        this.estacion_id = estacion_id;
+    public void setEstacion(Estacion estacion) {
+        this.estacion = estacion;
     }
 
 }

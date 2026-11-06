@@ -5,6 +5,7 @@ import com.clima.clima.repository.EstacionRepository;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EstacionService {
@@ -14,34 +15,40 @@ public class EstacionService {
         this.EstacionRepository = EstacionRepository;
     }
 
-    public List<Estacion> listarEstacion() {
+    // Listar todas las estaciones
+    public List<Estacion> listarEstaciones() {
         return EstacionRepository.findAll();
     }
 
+    // Guardar una estación
     public Estacion guardarEstacion(Estacion Estacion) {
         return EstacionRepository.save(Estacion);
     }
 
-    public Estacion buscarPorId(Long id) {
-        return EstacionRepository.findById(id)
-                .orElse(null);
+    // Buscar una estación por ID
+    public Optional<Estacion> buscarPorId(Long id) {
+        return EstacionRepository.findById(id);
     }
 
-    public Estacion actualizarEstacion(Long id, Estacion datos) {
-        Estacion Estacion = EstacionRepository.findById(id)
-                .orElse(null);
-        if (Estacion == null) {
-            return null;
+    // Actualizar una estación
+    public Optional<Estacion> actualizarEstacion(Long id, Estacion datos) {
+        return EstacionRepository.findById(id).map(estacion -> {
+            estacion.setNombre(datos.getNombre());
+            estacion.setCodigo(datos.getCodigo());
+            estacion.setUbicacion(datos.getUbicacion());
+            estacion.setEstado(datos.getEstado());
+            estacion.setCiudad(datos.getCiudad());
+            return EstacionRepository.save(estacion);
+        });
+    }
+
+    // Eliminar una estación
+    public boolean eliminarEstacion(Long id) {
+        if (!EstacionRepository.existsById(id)) {
+            return false;
         }
-        Estacion.setNombre(datos.getNombre());
-        Estacion.setCodigo(datos.getCodigo());
-        Estacion.setUbicacion(datos.getUbicacion());
-        Estacion.setEstado(datos.getEstado());
-        Estacion.setCiudad_id(datos.getCiudad_id());
-        return EstacionRepository.save(Estacion);
-    }
 
-    public void eliminarEstacion(Long id) {
         EstacionRepository.deleteById(id);
+        return true;
     }
 }

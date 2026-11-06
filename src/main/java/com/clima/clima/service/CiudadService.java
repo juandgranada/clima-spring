@@ -1,45 +1,58 @@
+
 package com.clima.clima.service;
 
 import com.clima.clima.entity.Ciudad;
 import com.clima.clima.repository.CiudadRepository;
 
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CiudadService {
-    private final CiudadRepository CiudadRepository;
 
-    public CiudadService(CiudadRepository CiudadRepository) {
-        this.CiudadRepository = CiudadRepository;
+    private final CiudadRepository ciudadRepository;
+
+    public CiudadService(CiudadRepository ciudadRepository) {
+        this.ciudadRepository = ciudadRepository;
     }
 
-    public List<Ciudad> listarCiudad() {
-        return CiudadRepository.findAll();
+    // Listar todas las ciudades
+    public List<Ciudad> listarCiudades() {
+        return ciudadRepository.findAll();
     }
 
-    public Ciudad guardarCiudad(Ciudad Ciudad) {
-        return CiudadRepository.save(Ciudad);
+    // Guardar una ciudad
+    public Ciudad guardarCiudad(Ciudad ciudad) {
+        return ciudadRepository.save(ciudad);
     }
 
-    public Ciudad buscarPorId(Long id) {
-        return CiudadRepository.findById(id)
-                .orElse(null);
+    // Buscar una ciudad por ID
+    public Optional<Ciudad> buscarPorId(Long id) {
+        return ciudadRepository.findById(id);
     }
 
-    public Ciudad actualizarCiudad(Long id, Ciudad datos) {
-        Ciudad Ciudad = CiudadRepository.findById(id)
-                .orElse(null);
-        if (Ciudad == null) {
-            return null;
+    // Actualizar una ciudad
+    public Optional<Ciudad> actualizarCiudad(Long id, Ciudad datos) {
+
+        return ciudadRepository.findById(id).map(ciudad -> {
+            ciudad.setNombre(datos.getNombre());
+            ciudad.setDepartamento(datos.getDepartamento());
+            ciudad.setPoblacion(datos.getPoblacion());
+
+            return ciudadRepository.save(ciudad);
+        });
+    }
+
+    // Eliminar una ciudad
+    public boolean eliminarCiudad(Long id) {
+
+        if (!ciudadRepository.existsById(id)) {
+            return false;
         }
-        Ciudad.setNombre(datos.getNombre());
-        Ciudad.setDepartamento(datos.getDepartamento());
-        Ciudad.setPoblacion(datos.getPoblacion());
-        return CiudadRepository.save(Ciudad);
-    }
 
-    public void eliminarCiudad(Long id) {
-        CiudadRepository.deleteById(id);
+        ciudadRepository.deleteById(id);
+        return true;
     }
 }

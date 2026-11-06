@@ -5,6 +5,7 @@ import com.clima.clima.repository.RegistroClimaRepository;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RegistroClimaService {
@@ -14,34 +15,40 @@ public class RegistroClimaService {
         this.RegistroClimaRepository = RegistroClimaRepository;
     }
 
+    // Listar todos los registros de clima
     public List<RegistroClima> listarRegistroClima() {
         return RegistroClimaRepository.findAll();
     }
 
+    // Guardar un registro de clima
     public RegistroClima guardarRegistroClima(RegistroClima RegistroClima) {
         return RegistroClimaRepository.save(RegistroClima);
     }
 
-    public RegistroClima buscarPorId(Long id) {
-        return RegistroClimaRepository.findById(id)
-                .orElse(null);
+    // Buscar un registro de clima por ID
+    public Optional<RegistroClima> buscarPorId(Long id) {
+        return RegistroClimaRepository.findById(id);
     }
 
-    public RegistroClima actualizarRegistroClima(Long id, RegistroClima datos) {
-        RegistroClima RegistroClima = RegistroClimaRepository.findById(id)
-                .orElse(null);
-        if (RegistroClima == null) {
-            return null;
+    // Actualizar un registro de clima
+    public Optional<RegistroClima> actualizarRegistroClima(Long id, RegistroClima datos) {
+        return RegistroClimaRepository.findById(id).map(registroClima -> {
+            registroClima.setTemperatura(datos.getTemperatura());
+            registroClima.setHumedad(datos.getHumedad());
+            registroClima.setPresion(datos.getPresion());
+            registroClima.setFecha(datos.getFecha());
+            registroClima.setEstacion(datos.getEstacion());
+            return RegistroClimaRepository.save(registroClima);
+        });
+    }
+
+    // Eliminar un registro de clima
+    public boolean eliminarRegistroClima(Long id) {
+        if (!RegistroClimaRepository.existsById(id)) {
+            return false;
         }
-        RegistroClima.setTemperatura(datos.getTemperatura());
-        RegistroClima.setHumedad(datos.getHumedad());
-        RegistroClima.setPresion(datos.getPresion());
-        RegistroClima.setFecha(datos.getFecha());
-        RegistroClima.setEstacion_id(datos.getEstacion_id());
-        return RegistroClimaRepository.save(RegistroClima);
-    }
 
-    public void eliminarRegistroClima(Long id) {
         RegistroClimaRepository.deleteById(id);
+        return true;
     }
 }
