@@ -1,46 +1,61 @@
 package com.clima.clima.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "estacion")
 public class Estacion {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "El nombre de la estación es obligatorio")
-    @Size(max = 100, message = "El nombre no puede superar los 100 caracteres")
-    @Column(name = "nombre", nullable = false, length = 100)
+    @NotBlank(message = "El nombre es obligatorio")
+    @Size(max = 100, message = "El nombre admite máximo 100 caracteres")
+    @Column(nullable = false, length = 100)
     private String nombre;
 
-    @NotBlank(message = "El código de la estación es obligatorio")
-    @Size(max = 50, message = "El código no puede superar los 50 caracteres")
-    @Column(name = "codigo", length = 50)
+    @NotBlank(message = "El código es obligatorio")
+    @Size(max = 30, message = "El código admite máximo 30 caracteres")
+    @Column(nullable = false, unique = true, length = 30)
     private String codigo;
 
-    @NotBlank(message = "La ubicación de la estación es obligatoria")
-    @Size(max = 200, message = "La ubicación no puede superar los 200 caracteres")
-    @Column(name = "ubicacion", length = 200)
+    @Size(max = 255, message = "La ubicación admite máximo 255 caracteres")
+    @Column(length = 255)
     private String ubicacion;
 
-    @NotBlank (message = "El estado de la estación es obligatorio")
-    @Size(max = 50, message = "El estado no puede superar los 50 caracteres")
-    @Column(name = "estado", length = 50)
-    private String estado;
+    @Pattern(
+        regexp = "ACTIVA|INACTIVA|MANTENIMIENTO",
+        message = "El estado debe ser ACTIVA, INACTIVA o MANTENIMIENTO")
+    @Column(nullable = false, length = 20)
+    private String estado = "ACTIVA";
 
-
-    @ManyToOne
-    @JoinColumn(name = "ciudad_id")
+    // Relación N:1 con Ciudad (lado propietario: aquí está la FK)
+    @NotNull(message = "La ciudad es obligatoria")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "ciudad_id", nullable = false)
     private Ciudad ciudad;
+
+    // Relación 1:1 con ConfiguracionEstacion (lado inverso)
+    @OneToOne(mappedBy = "estacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private ConfiguracionEstacion configuracion;
+
+    // Relación 1:N con RegistroClima (lado inverso)
+    @OneToMany(mappedBy = "estacion")
+    @JsonIgnore
+    private List<RegistroClima> registros = new ArrayList<>();
 
     public Estacion() {
     }
-
-    // Getters y Setters
 
     public Long getId() {
         return id;
@@ -90,4 +105,11 @@ public class Estacion {
         this.ciudad = ciudad;
     }
 
+    public ConfiguracionEstacion getConfiguracion() {
+        return configuracion;
+    }
+
+    public List<RegistroClima> getRegistros() {
+        return registros;
+    }
 }

@@ -1,9 +1,17 @@
 package com.clima.clima.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import jakarta.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "registro_clima")
@@ -13,29 +21,54 @@ public class RegistroClima {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull ( message = "La temperatura es obligatoria")
-    @Column(name = "temperatura", nullable = false)
+    @NotNull(message = "La temperatura es obligatoria")
+    @Column(nullable = false, precision = 5, scale = 2)
     private BigDecimal temperatura;
 
     @NotNull(message = "La humedad es obligatoria")
-    @Column(name = "humedad", nullable = false)
+    @DecimalMin(value = "0.0", message = "La humedad no puede ser menor a 0")
+    @DecimalMax(value = "100.0", message = "La humedad no puede ser mayor a 100")
+    @Column(nullable = false, precision = 5, scale = 2)
     private BigDecimal humedad;
 
     @NotNull(message = "La presión es obligatoria")
-    @Column(name = "presion", nullable = false)
+    @DecimalMin(value = "0.0", inclusive = false, message = "La presión debe ser mayor a 0")
+    @Column(nullable = false, precision = 7, scale = 2)
     private BigDecimal presion;
 
-    @Column(name = "fecha", nullable = false, insertable = false, updatable = false)
+    @Column(nullable = false)
     private LocalDateTime fecha;
 
-    @ManyToOne
-    @JoinColumn(name = "estacion_id")
+    // Relación N:1 con Estacion (lado propietario)
+    @NotNull(message = "La estación es obligatoria")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "estacion_id", nullable = false)
     private Estacion estacion;
+
+    // Relación N:M con TipoMedicion (lado propietario, tabla registro_tipo_medicion)
+    @ManyToMany
+    @JoinTable(
+        name = "registro_tipo_medicion",
+        joinColumns = @JoinColumn(name = "registro_clima_id"),
+        inverseJoinColumns = @JoinColumn(name = "tipo_medicion_id")
+    )
+    private Set<TipoMedicion> tiposMedicion = new HashSet<>();
+
+    // Relación 1:N con Alerta (lado inverso)
+    @OneToMany(mappedBy = "registroClima", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Alerta> alertas = new ArrayList<>();
 
     public RegistroClima() {
     }
 
-    // Getters y Setters
+    // Si la fecha no viene en el JSON, se asigna la fecha y hora actuales
+    @PrePersist
+    void asignarFecha() {
+        if (fecha == null) {
+            fecha = LocalDateTime.now();
+        }
+    }
 
     public Long getId() {
         return id;
@@ -85,4 +118,15 @@ public class RegistroClima {
         this.estacion = estacion;
     }
 
+    public Set<TipoMedicion> getTiposMedicion() {
+        return tiposMedicion;
+    }
+
+    public void setTiposMedicion(Set<TipoMedicion> tiposMedicion) {
+        this.tiposMedicion = tiposMedicion;
+    }
+
+    public List<Alerta> getAlertas() {
+        return alertas;
+    }
 }

@@ -1,20 +1,20 @@
-
 package com.clima.clima.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(
     name = "ciudad",
-    uniqueConstraints = {
-        @UniqueConstraint(
-            name = "uq_ciudad_nombre_depto",
-            columnNames = {"nombre", "departamento"}
-        )
-    }
+    uniqueConstraints = @UniqueConstraint(
+        name = "uq_ciudad_nombre_depto",
+        columnNames = {"nombre", "departamento"})
 )
 public class Ciudad {
 
@@ -22,19 +22,23 @@ public class Ciudad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "El nombre de la ciudad es obligatorio")
-    @Size(max = 100, message = "El nombre no puede superar los 100 caracteres")
-    @Column(name = "nombre", nullable = false, length = 100)
+    @NotBlank(message = "El nombre es obligatorio")
+    @Size(max = 100, message = "El nombre admite máximo 100 caracteres")
+    @Column(nullable = false, length = 100)
     private String nombre;
 
     @NotBlank(message = "El departamento es obligatorio")
-    @Size(max = 100, message = "El departamento no puede superar los 100 caracteres")
-    @Column(name = "departamento", nullable = false, length = 100)
+    @Size(max = 100, message = "El departamento admite máximo 100 caracteres")
+    @Column(nullable = false, length = 100)
     private String departamento;
 
-    @PositiveOrZero(message = "La población no puede ser negativa")
-    @Column(name = "poblacion")
+    @Min(value = 0, message = "La población no puede ser negativa")
     private Integer poblacion;
+
+    // Relación 1:N con Estacion (lado inverso, la FK vive en estacion.ciudad_id)
+    @OneToMany(mappedBy = "ciudad")
+    @JsonIgnore
+    private List<Estacion> estaciones = new ArrayList<>();
 
     public Ciudad() {
     }
@@ -69,5 +73,9 @@ public class Ciudad {
 
     public void setPoblacion(Integer poblacion) {
         this.poblacion = poblacion;
+    }
+
+    public List<Estacion> getEstaciones() {
+        return estaciones;
     }
 }
