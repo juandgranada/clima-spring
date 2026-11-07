@@ -17,31 +17,24 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "El nombre es obligatorio")
-    @Size(max = 100, message = "El nombre admite máximo 100 caracteres")
-    @Column(nullable = false, length = 100)
+    @NotBlank(message = "El nombre no puede estar vacío")
+    @Column(nullable = false, length = 120)
+    @Size (max = 120, message = "El nombre no puede tener más de 120 caracteres")
     private String nombre;
 
-    @NotBlank(message = "El correo es obligatorio")
-    @Email(message = "El correo no tiene un formato válido")
-    @Size(max = 150, message = "El correo admite máximo 150 caracteres")
+    @NotBlank(message = "El correo no puede estar vacío")
+    @Email(message = "El correo debe tener un formato válido")
+    @Size(max = 150, message = "El correo no puede tener más de 150 caracteres")
     @Column(nullable = false, unique = true, length = 150)
     private String correo;
 
-    // WRITE_ONLY: se recibe en el JSON de entrada, pero nunca se devuelve en las respuestas
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotBlank(message = "La contraseña es obligatoria")
-    @Size(min = 6, max = 255, message = "La contraseña debe tener al menos 6 caracteres")
+    @NotBlank (message = "La contraseña no puede estar vacía")
     @Column(nullable = false, length = 255)
     private String contrasena;
 
     // Relación N:M con Rol (lado propietario, tabla usuario_rol)
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "usuario_rol",
-        joinColumns = @JoinColumn(name = "usuario_id"),
-        inverseJoinColumns = @JoinColumn(name = "rol_id")
-    )
+    @JoinTable(name = "usuario_rol", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))
     private Set<Rol> roles = new HashSet<>();
 
     public Usuario() {

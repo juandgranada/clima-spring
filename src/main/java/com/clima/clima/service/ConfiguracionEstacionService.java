@@ -20,7 +20,7 @@ public class ConfiguracionEstacionService {
     private final EstacionRepository estacionRepository;
 
     public ConfiguracionEstacionService(ConfiguracionEstacionRepository configuracionRepository,
-                                        EstacionRepository estacionRepository) {
+            EstacionRepository estacionRepository) {
         this.configuracionRepository = configuracionRepository;
         this.estacionRepository = estacionRepository;
     }
@@ -76,14 +76,9 @@ public class ConfiguracionEstacionService {
 
     // Eliminar una configuración
     @Transactional
-    public boolean eliminarConfiguracion(Long id) {
-        if (!configuracionRepository.existsById(id)) {
-            return false;
-        }
-
+    public void eliminarConfiguracion(Long id) {
         configuracionRepository.deleteById(id);
-        return true;
-    }
+    }  
 
     private Estacion resolverEstacion(Estacion referencia) {
         if (referencia == null || referencia.getId() == null) {

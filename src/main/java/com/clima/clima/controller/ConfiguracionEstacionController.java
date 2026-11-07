@@ -62,9 +62,7 @@ public class ConfiguracionEstacionController {
 
     // DELETE /api/configuraciones/{id}
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarConfiguracion(@PathVariable Long id) {
-        return configuracionService.eliminarConfiguracion(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+    public void eliminarConfiguracion(@PathVariable Long id) {
+        configuracionService.eliminarConfiguracion(id);
     }
 }
